@@ -73,16 +73,17 @@ Die Skills bilden den B Lab Phasenansatz ab:
 
 | Komponente | Technologie |
 |------------|-------------|
-| KI-Agenten | [Claude](https://claude.ai) Skills (Anthropic) |
+| KI-Modell | [Claude](https://claude.ai) Sonnet 4.6 (Anthropic) |
 | Agent-Protokoll | [MCP](https://modelcontextprotocol.io) (Model Context Protocol, Linux Foundation) |
-| Datenhoheit | [Apertus](https://apertus.ai) (Schweizer Open Source AI, Infomaniak) |
 | FAQ-Agent | [Dify](https://dify.ai) (Self-hosted, RAG auf B Lab Standards V2.2) |
+| Automatisierung | [n8n](https://n8n.io) (Self-hosted, Workflow Automation) |
 | Skill-Format | `.skill` ZIP-Archive für Claude Desktop |
+| Hosting | Hostinger VPS, Serverstandort Frankfurt/Main (DSGVO-konform) |
 
 ## Live Demo
 
-🔗 **B Corp Navigator FAQ** — [Demnächst verfügbar]
-Chatbot auf Basis der vollständigen B Lab Standards V2.2, gehostet auf Schweizer Infrastruktur mit Apertus als LLM-Backend.
+🔗 **B Corp Navigator FAQ** — [https://dify.huebner.io/chat/QExMsxb1mzs2bbLO](https://dify.huebner.io/chat/QExMsxb1mzs2bbLO)
+Chatbot auf Basis der vollständigen B Lab Standards V2.2, self-hosted auf europäischer Infrastruktur (Frankfurt/Main).
 
 ## Für wen?
 
@@ -90,16 +91,6 @@ Chatbot auf Basis der vollständigen B Lab Standards V2.2, gehostet auf Schweize
 - **Bestehende B Corps**, die das laufende Reporting effizient gestalten wollen
 - **B Corp Berater**, die ihren Kunden ein KI-gestütztes Tool anbieten möchten
 - **Nachhaltigkeitsmanager**, die B Corp neben GRI/ESRS/CDP parallel führen
-
-## Preispositionierung
-
-| | Enterprise B Corp Software | AI B Corp Team |
-|---|---|---|
-| Setup | CHF 20'000–80'000 | **CHF 25'000–40'000** |
-| Jährlich | CHF 50'000–150'000 | **Token-basiert (niedrig)** |
-| Datenhoheit | Cloud (oft US) | **Schweiz (Apertus/Infomaniak)** |
-| Anpassung | Begrenzt | **Vollständig** |
-| Interoperabilität | Proprietär | **GRI, ESRS, CDP, SBTi** |
 
 ## Interoperabilität
 
@@ -127,12 +118,13 @@ git clone https://github.com/hartmut-ux/ai-bcorp-team.git
 
 MIT License — Frei verfügbar für kommerzielle und nicht-kommerzielle Nutzung.
 
-## Kontakt
+## Über den Autor
 
-**MMIND.ai** — AI Transformation für KMU
-- Web: [mmind.ai](https://mmind.ai)
-- E-Mail: office@flowstatecyclist.com
-- LinkedIn: [Hartmut Plass](https://linkedin.com/in/hartmutplass)
+**Hartmut Hübner, PhD** verbindet 20 Jahre Corporate Communications in Grossunternehmen (Siemens, Finanzdienstleistungen) mit 10 Jahren Erfahrung in Transformation, Digitalisierung und KI. Co-Founder mehrerer Startups, darunter MMIND.ai. Akademischer Hintergrund an der LMU München und Promotion an der University of Salford (Dissertation: *The Communicating Company*). Zertifizierter B Corp Berater.
+
+- 🌐 [mmind.ai](https://mmind.ai) · [MMIND.ai Marketplace](https://mmind.ai/marketplace)
+- 💼 [LinkedIn](https://linkedin.com/in/hartmutplass)
+- 🐙 [GitHub](https://github.com/hartmut-ux)
 
 ---
 

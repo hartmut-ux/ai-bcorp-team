@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B Corp Navigator — AI Guide to B Corp Certification</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --dusty-rose: #CC798E;
+            --soft-coral: #EE876F;
+            --light-blush: #FAEAE9;
+            --light-gray: #F2F2F2;
+            --near-black: #0D0D0D;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--near-black);
+            background: var(--white);
+            min-height: 100vh;
+        }
+
+        /* ── GATE VIEW ── */
+        .gate-view {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .gate-view.hidden { display: none; }
+
+        .logo-mark {
+            width: 80px;
+            height: 80px;
+            background: var(--soft-coral);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            border: 1px solid var(--near-black);
+        }
+
+        .logo-mark span {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 44px;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(32px, 5vw, 52px);
+            font-weight: 700;
+            color: var(--near-black);
+            margin-bottom: 0.5rem;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: clamp(16px, 2.5vw, 22px);
+            color: var(--near-black);
+            opacity: 0.7;
+            margin-bottom: 2.5rem;
+            max-width: 560px;
+            line-height: 1.5;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            max-width: 700px;
+        }
+
+        .feature-tag {
+            background: var(--light-blush);
+            border: 1px solid var(--near-black);
+            border-radius: 12px;
+            padding: 0.6rem 1.2rem;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .gate-card {
+            background: var(--light-gray);
+            border: 1px solid var(--near-black);
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-width: 440px;
+            width: 100%;
+        }
+
+        .gate-card h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22px;
+            margin-bottom: 0.5rem;
+        }
+
+        .gate-card p {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 1px solid var(--near-black);
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            background: var(--white);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--soft-coral);
+            box-shadow: 0 0 0 3px rgba(238, 135, 111, 0.15);
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+        }
+
+        .cta-button {
+            width: 100%;
+            padding: 0.9rem 1.5rem;
+            background: var(--soft-coral);
+            color: var(--white);
+            border: 1px solid var(--near-black);
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .cta-button:hover {
+            background: var(--dusty-rose);
+        }
+
+        .cta-button:active {
+            transform: scale(0.98);
+        }
+
+        .legal {
+            font-size: 12px;
+            opacity: 0.5;
+            margin-top: 1rem;
+            line-height: 1.5;
+        }
+
+        .legal a {
+            color: var(--near-black);
+        }
+
+        /* ── CHAT VIEW ── */
+        .chat-view {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .chat-view.active {
+            display: flex;
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem 1.5rem;
+            background: var(--white);
+            border-bottom: 1px solid var(--near-black);
+        }
+
+        .chat-header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .chat-header-logo {
+            width: 36px;
+            height: 36px;
+            background: var(--soft-coral);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--near-black);
+        }
+
+        .chat-header-logo span {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .chat-header h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .chat-header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-badge {
+            font-size: 13px;
+            color: var(--near-black);
+            opacity: 0.6;
+        }
+
+        .new-chat-btn {
+            padding: 0.4rem 0.8rem;
+            background: var(--light-blush);
+            border: 1px solid var(--near-black);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--near-black);
+        }
+
+        .new-chat-btn:hover {
+            background: var(--light-gray);
+        }
+
+        .chat-frame-container {
+            flex: 1;
+            position: relative;
+            background: var(--white);
+        }
+
+        .chat-frame-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .chat-footer {
+            padding: 0.5rem 1.5rem;
+            background: var(--white);
+            border-top: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-footer-left {
+            font-size: 12px;
+            opacity: 0.4;
+        }
+
+        .chat-footer-left a {
+            color: var(--near-black);
+            text-decoration: none;
+        }
+
+        .chat-footer-right {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chat-footer-right a {
+            font-size: 12px;
+            color: var(--dusty-rose);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .powered-by {
+            font-size: 11px;
+            opacity: 0.4;
+            margin-top: 1.5rem;
+        }
+
+        .powered-by a {
+            color: var(--near-black);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .error-msg {
+            color: var(--soft-coral);
+            font-size: 13px;
+            margin-bottom: 0.5rem;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .gate-card { padding: 1.5rem; }
+            .features { gap: 0.5rem; }
+            .feature-tag { font-size: 12px; padding: 0.4rem 0.8rem; }
+            .chat-header { padding: 0.6rem 1rem; }
+            .chat-footer { padding: 0.4rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── GATE VIEW ── -->
+    <div class="gate-view" id="gateView">
+        <div class="logo-mark"><span>B</span></div>
+        <h1>B Corp Navigator</h1>
+        <p class="subtitle">Your AI guide to B Corp certification under the new B Lab Standards V2.2 (February 2026)</p>
+
+        <div class="features">
+            <div class="feature-tag">Foundation Requirements</div>
+            <div class="feature-tag">7 Impact Topics</div>
+            <div class="feature-tag">Phased Approach</div>
+            <div class="feature-tag">Size &amp; Sector Tailored</div>
+            <div class="feature-tag">EN · DE · FR</div>
+        </div>
+
+        <div class="gate-card">
+            <h2>Get Free Access</h2>
+            <p>Enter your email to start exploring the complete B Lab Standards V2.2 with AI-powered guidance.</p>
+            <div class="error-msg" id="errorMsg">Please enter a valid email address.</div>
+            <div class="form-group">
+                <input type="text" id="nameInput" placeholder="Your name" autocomplete="name">
+            </div>
+            <div class="form-group">
+                <input type="email" id="emailInput" placeholder="Your email address" autocomplete="email">
+            </div>
+            <button class="cta-button" id="accessBtn" onclick="handleAccess()">
+                Start Exploring →
+            </button>
+            <p class="legal">By continuing you agree to receive occasional updates about B Corp tools and resources. No spam, unsubscribe anytime.</p>
+        </div>
+
+        <p class="powered-by">Open Source on <a href="https://github.com/hartmut-ux/ai-bcorp-team" target="_blank">GitHub</a> · Built by <a href="https://mmind.ai" target="_blank">MMIND.ai</a></p>
+    </div>
+
+    <!-- ── CHAT VIEW ── -->
+    <div class="chat-view" id="chatView">
+        <div class="chat-header">
+            <div class="chat-header-left">
+                <div class="chat-header-logo"><span>B</span></div>
+                <h3>B Corp Navigator</h3>
+            </div>
+            <div class="chat-header-right">
+                <span class="user-badge" id="userBadge"></span>
+                <button class="new-chat-btn" onclick="newChat()">+ New Chat</button>
+            </div>
+        </div>
+        <div class="chat-frame-container">
+            <iframe
+                id="difyFrame"
+                src=""
+                allow="microphone"
+                loading="lazy"
+            ></iframe>
+        </div>
+        <div class="chat-footer">
+            <div class="chat-footer-left">
+                Based on B Lab Standards V2.2 (Feb 2026) · <a href="https://mmind.ai" target="_blank">MMIND.ai</a>
+            </div>
+            <div class="chat-footer-right">
+                <a href="https://github.com/hartmut-ux/ai-bcorp-team" target="_blank">GitHub</a>
+                <a href="https://github.com/hartmut-ux/ai-bcorp-team-en" target="_blank">EN Repo</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ══ CONFIGURATION ══
+        // Replace this URL with your Dify chatbot embed URL
+        const DIFY_CHAT_URL = 'https://dify.huebner.io/chatbot/QExMsxb1mzs2bbLO';
+
+        // Optional: Beehiiv publication ID for newsletter integration
+        // Leave empty to just store emails locally
+        const BEEHIIV_PUBLICATION_ID = '';
+
+        // ══ ACCESS HANDLER ══
+        function handleAccess() {
+            const name = document.getElementById('nameInput').value.trim();
+            const email = document.getElementById('emailInput').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                errorMsg.style.display = 'block';
+                errorMsg.textContent = 'Please enter a valid email address.';
+                return;
+            }
+
+            if (!name) {
+                errorMsg.style.display = 'block';
+                errorMsg.textContent = 'Please enter your name.';
+                return;
+            }
+
+            errorMsg.style.display = 'none';
+
+            // Store access data
+            const accessData = {
+                name: name,
+                email: email,
+                timestamp: new Date().toISOString(),
+                source: 'bcorp-navigator-landing'
+            };
+
+            // Log to console (you can send this to your backend/webhook)
+            console.log('New B Corp Navigator access:', accessData);
+
+            // Optional: Send to n8n webhook for Beehiiv integration
+            sendToWebhook(accessData);
+
+            // Show chat
+            showChat(name, email);
+        }
+
+        function showChat(name, email) {
+            document.getElementById('gateView').classList.add('hidden');
+            document.getElementById('chatView').classList.add('active');
+            document.getElementById('userBadge').textContent = name;
+            document.getElementById('difyFrame').src = DIFY_CHAT_URL;
+        }
+
+        function newChat() {
+            const frame = document.getElementById('difyFrame');
+            frame.src = '';
+            setTimeout(() => { frame.src = DIFY_CHAT_URL; }, 100);
+        }
+
+        // ══ WEBHOOK INTEGRATION ══
+        // Connect this to your n8n webhook to store emails / add to Beehiiv
+        function sendToWebhook(data) {
+            // Uncomment and replace with your n8n webhook URL:
+            // fetch('https://n8n.huebner.io/webhook/bcorp-navigator-signup', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(data)
+            // }).catch(err => console.log('Webhook not configured yet'));
+        }
+
+        // Allow Enter key to submit
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !document.getElementById('gateView').classList.contains('hidden')) {
+                handleAccess();
+            }
+        });
+    </script>
+</body>
+</html>
