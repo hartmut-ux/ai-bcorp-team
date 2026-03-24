@@ -82,7 +82,7 @@ Die Skills bilden den B Lab Phasenansatz ab:
 
 ## Live Demo
 
-🔗 **B Corp Navigator FAQ** — [https://dify.huebner.io/chat/QExMsxb1mzs2bbLO](https://dify.huebner.io/chat/QExMsxb1mzs2bbLO)
+🔗 **B Corp Navigator FAQ** — [https://hartmut-ux.github.io/ai-bcorp-team/](https://hartmut-ux.github.io/ai-bcorp-team/)
 Chatbot auf Basis der vollständigen B Lab Standards V2.2, self-hosted auf europäischer Infrastruktur (Frankfurt/Main).
 
 ## Für wen?
