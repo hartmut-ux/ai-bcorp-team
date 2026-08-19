@@ -1,471 +1,226 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B Corp Navigator — AI Guide to B Corp Certification</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B Corp Navigator – KI-Assistenz für die B Corp Zertifizierung</title>
+<meta name="description" content="Zehn Claude Skills und ein FAQ-Agent auf Basis der B Lab Standards V2. Entwickelt von MMIND.ai.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --plum:#2F1863;
+  --papaya:#FF7D4E;
+  --orchid:#694BAD;
+  --fog:#E3E3E3;
+  --ash:#2F2F2F;
+  --n100:#F2F2F2;
+  --n400:#8C8C8C;
+  --white:#FFFFFF;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Sora',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--ash);background:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased}
 
-        :root {
-            --dusty-rose: #CC798E;
-            --soft-coral: #EE876F;
-            --light-blush: #FAEAE9;
-            --light-gray: #F2F2F2;
-            --near-black: #0D0D0D;
-            --white: #FFFFFF;
-        }
+/* ── Kopf ── */
+header{background:var(--plum);color:var(--white)}
+.nav{max-width:1120px;margin:0 auto;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:.75rem;font-weight:600;letter-spacing:.02em}
+.brand .mark{width:34px;height:34px;border-radius:9px;background:var(--papaya);color:var(--plum);display:grid;place-items:center;font-weight:700;font-size:1.1rem}
+.nav a{color:rgba(255,255,255,.82);text-decoration:none;font-size:.9rem;margin-left:1.25rem}
+.nav a:hover{color:var(--white)}
+.nav-links{display:flex;flex-wrap:wrap}
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: var(--near-black);
-            background: var(--white);
-            min-height: 100vh;
-        }
+.hero{max-width:1120px;margin:0 auto;padding:3.5rem 1.5rem 4rem}
+.eyebrow{display:inline-block;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--papaya);font-weight:600;margin-bottom:1rem}
+h1{font-size:clamp(2rem,5vw,3.25rem);font-weight:700;line-height:1.12;letter-spacing:-.02em;max-width:20ch}
+.lead{margin-top:1.25rem;font-size:clamp(1rem,2vw,1.2rem);color:rgba(255,255,255,.8);max-width:56ch;font-weight:300}
+.cta-row{margin-top:2rem;display:flex;gap:.85rem;flex-wrap:wrap}
+.btn{display:inline-block;padding:.85rem 1.6rem;border-radius:8px;font-weight:600;font-size:.95rem;text-decoration:none;transition:transform .15s ease;border:1.5px solid transparent}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--papaya);color:var(--plum)}
+.btn-ghost{border-color:rgba(255,255,255,.35);color:var(--white)}
+.tags{margin-top:2.5rem;display:flex;gap:.5rem;flex-wrap:wrap}
+.tag{font-size:.78rem;padding:.35rem .8rem;border-radius:999px;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.8)}
 
-        /* ── GATE VIEW ── */
-        .gate-view {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            text-align: center;
-        }
+/* ── Abschnitte ── */
+section{max-width:1120px;margin:0 auto;padding:4rem 1.5rem}
+h2{font-size:clamp(1.4rem,3vw,2rem);font-weight:600;letter-spacing:-.01em;color:var(--plum);margin-bottom:.75rem}
+.sub{color:var(--n400);max-width:62ch;margin-bottom:2.25rem;font-weight:300}
 
-        .gate-view.hidden { display: none; }
+/* ── Chat ── */
+.chat-shell{border:1px solid var(--fog);border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(47,24,99,.06)}
+.chat-bar{background:var(--n100);padding:.7rem 1.1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;border-bottom:1px solid var(--fog);font-size:.85rem;flex-wrap:wrap}
+.chat-bar strong{color:var(--plum);font-weight:600}
+.chat-bar span{color:var(--n400)}
+.chat-bar button{background:none;border:1px solid var(--fog);border-radius:6px;padding:.35rem .8rem;font-family:inherit;font-size:.82rem;color:var(--plum);cursor:pointer}
+.chat-bar button:hover{border-color:var(--orchid)}
+.chat-shell iframe{display:block;width:100%;height:620px;border:0;background:var(--white)}
 
-        .logo-mark {
-            width: 80px;
-            height: 80px;
-            background: var(--soft-coral);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
-            border: 1px solid var(--near-black);
-        }
+/* ── Karten ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}
+.card{border:1px solid var(--fog);border-radius:12px;padding:1.25rem;transition:border-color .15s ease}
+.card:hover{border-color:var(--orchid)}
+.card .num{font-size:.72rem;font-weight:700;color:var(--papaya);letter-spacing:.1em}
+.card h3{font-size:1rem;font-weight:600;color:var(--plum);margin:.35rem 0 .4rem}
+.card p{font-size:.86rem;color:var(--n400);font-weight:300;min-height:3.2em}
+.card .req{display:inline-block;margin-top:.7rem;font-size:.72rem;background:var(--n100);color:var(--ash);padding:.2rem .55rem;border-radius:4px}
+.card a{display:inline-block;margin-top:.9rem;font-size:.84rem;color:var(--orchid);text-decoration:none;font-weight:500}
+.card a:hover{text-decoration:underline}
 
-        .logo-mark span {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 44px;
-            font-weight: 700;
-            color: var(--white);
-        }
+/* ── Info-Band ── */
+.band{background:var(--n100)}
+.band-inner{max-width:1120px;margin:0 auto;padding:3.5rem 1.5rem}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2.5rem;align-items:start}
+.two h3{color:var(--plum);font-size:1.1rem;font-weight:600;margin-bottom:.6rem}
+.two p{font-weight:300;color:var(--ash);font-size:.94rem}
+.steps{counter-reset:s;list-style:none;margin-top:.8rem}
+.steps li{counter-increment:s;position:relative;padding-left:2.1rem;margin-bottom:.7rem;font-size:.92rem;font-weight:300}
+.steps li::before{content:counter(s);position:absolute;left:0;top:.05rem;width:1.45rem;height:1.45rem;border-radius:50%;background:var(--plum);color:var(--white);font-size:.75rem;font-weight:600;display:grid;place-items:center}
+code{background:var(--white);border:1px solid var(--fog);border-radius:4px;padding:.12rem .4rem;font-size:.85em;word-break:break-all}
 
-        h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: clamp(32px, 5vw, 52px);
-            font-weight: 700;
-            color: var(--near-black);
-            margin-bottom: 0.5rem;
-            line-height: 1.1;
-        }
-
-        .subtitle {
-            font-size: clamp(16px, 2.5vw, 22px);
-            color: var(--near-black);
-            opacity: 0.7;
-            margin-bottom: 2.5rem;
-            max-width: 560px;
-            line-height: 1.5;
-        }
-
-        .features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-            margin-bottom: 3rem;
-            max-width: 700px;
-        }
-
-        .feature-tag {
-            background: var(--light-blush);
-            border: 1px solid var(--near-black);
-            border-radius: 12px;
-            padding: 0.6rem 1.2rem;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .gate-card {
-            background: var(--light-gray);
-            border: 1px solid var(--near-black);
-            border-radius: 16px;
-            padding: 2.5rem;
-            max-width: 440px;
-            width: 100%;
-        }
-
-        .gate-card h2 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 22px;
-            margin-bottom: 0.5rem;
-        }
-
-        .gate-card p {
-            font-size: 14px;
-            opacity: 0.7;
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 0.85rem 1rem;
-            border: 1px solid var(--near-black);
-            border-radius: 12px;
-            font-family: 'Inter', sans-serif;
-            font-size: 16px;
-            background: var(--white);
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .form-group input:focus {
-            border-color: var(--soft-coral);
-            box-shadow: 0 0 0 3px rgba(238, 135, 111, 0.15);
-        }
-
-        .form-group input::placeholder {
-            color: #999;
-        }
-
-        .cta-button {
-            width: 100%;
-            padding: 0.9rem 1.5rem;
-            background: var(--soft-coral);
-            color: var(--white);
-            border: 1px solid var(--near-black);
-            border-radius: 12px;
-            font-family: 'Inter', sans-serif;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
-        }
-
-        .cta-button:hover {
-            background: var(--dusty-rose);
-        }
-
-        .cta-button:active {
-            transform: scale(0.98);
-        }
-
-        .legal {
-            font-size: 12px;
-            opacity: 0.5;
-            margin-top: 1rem;
-            line-height: 1.5;
-        }
-
-        .legal a {
-            color: var(--near-black);
-        }
-
-        /* ── CHAT VIEW ── */
-        .chat-view {
-            display: none;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        .chat-view.active {
-            display: flex;
-        }
-
-        .chat-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.8rem 1.5rem;
-            background: var(--white);
-            border-bottom: 1px solid var(--near-black);
-        }
-
-        .chat-header-left {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .chat-header-logo {
-            width: 36px;
-            height: 36px;
-            background: var(--soft-coral);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--near-black);
-        }
-
-        .chat-header-logo span {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--white);
-        }
-
-        .chat-header h3 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .chat-header-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .user-badge {
-            font-size: 13px;
-            color: var(--near-black);
-            opacity: 0.6;
-        }
-
-        .new-chat-btn {
-            padding: 0.4rem 0.8rem;
-            background: var(--light-blush);
-            border: 1px solid var(--near-black);
-            border-radius: 8px;
-            font-family: 'Inter', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            color: var(--near-black);
-        }
-
-        .new-chat-btn:hover {
-            background: var(--light-gray);
-        }
-
-        .chat-frame-container {
-            flex: 1;
-            position: relative;
-            background: var(--white);
-        }
-
-        .chat-frame-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .chat-footer {
-            padding: 0.5rem 1.5rem;
-            background: var(--white);
-            border-top: 1px solid #eee;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .chat-footer-left {
-            font-size: 12px;
-            opacity: 0.4;
-        }
-
-        .chat-footer-left a {
-            color: var(--near-black);
-            text-decoration: none;
-        }
-
-        .chat-footer-right {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .chat-footer-right a {
-            font-size: 12px;
-            color: var(--dusty-rose);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .powered-by {
-            font-size: 11px;
-            opacity: 0.4;
-            margin-top: 1.5rem;
-        }
-
-        .powered-by a {
-            color: var(--near-black);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .error-msg {
-            color: var(--soft-coral);
-            font-size: 13px;
-            margin-bottom: 0.5rem;
-            display: none;
-        }
-
-        @media (max-width: 600px) {
-            .gate-card { padding: 1.5rem; }
-            .features { gap: 0.5rem; }
-            .feature-tag { font-size: 12px; padding: 0.4rem 0.8rem; }
-            .chat-header { padding: 0.6rem 1rem; }
-            .chat-footer { padding: 0.4rem 1rem; }
-        }
-    </style>
+/* ── Fuss ── */
+footer{background:var(--plum);color:rgba(255,255,255,.72);font-size:.86rem}
+.foot-inner{max-width:1120px;margin:0 auto;padding:2.5rem 1.5rem;display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+footer a{color:var(--papaya);text-decoration:none}
+footer a:hover{text-decoration:underline}
+.disclaimer{max-width:60ch;font-weight:300;font-size:.82rem;line-height:1.6}
+</style>
 </head>
 <body>
 
-    <!-- ── GATE VIEW ── -->
-    <div class="gate-view" id="gateView">
-        <div class="logo-mark"><span>B</span></div>
-        <h1>B Corp Navigator</h1>
-        <p class="subtitle">Your AI guide to B Corp certification under the new B Lab Standards V2.2 (February 2026)</p>
-
-        <div class="features">
-            <div class="feature-tag">Foundation Requirements</div>
-            <div class="feature-tag">7 Impact Topics</div>
-            <div class="feature-tag">Phased Approach</div>
-            <div class="feature-tag">Size &amp; Sector Tailored</div>
-            <div class="feature-tag">EN · DE · FR</div>
-        </div>
-
-        <div class="gate-card">
-            <h2>Get Free Access</h2>
-            <p>Enter your email to start exploring the complete B Lab Standards V2.2 with AI-powered guidance.</p>
-            <div class="error-msg" id="errorMsg">Please enter a valid email address.</div>
-            <div class="form-group">
-                <input type="text" id="nameInput" placeholder="Your name" autocomplete="name">
-            </div>
-            <div class="form-group">
-                <input type="email" id="emailInput" placeholder="Your email address" autocomplete="email">
-            </div>
-            <button class="cta-button" id="accessBtn" onclick="handleAccess()">
-                Start Exploring →
-            </button>
-            <p class="legal">By continuing you agree to receive occasional updates about B Corp tools and resources. No spam, unsubscribe anytime.</p>
-        </div>
-
-        <p class="powered-by">Open Source on <a href="https://github.com/hartmut-ux/ai-bcorp-team" target="_blank">GitHub</a> · Built by <a href="https://mmind.ai" target="_blank">MMIND.ai</a></p>
+<header>
+  <div class="nav">
+    <div class="brand"><span class="mark">B</span> B Corp Navigator</div>
+    <div class="nav-links">
+      <a href="#chat">FAQ-Agent</a>
+      <a href="#skills">Skills</a>
+      <a href="#install">Installation</a>
+      <a href="https://github.com/hartmut-ux/ai-bcorp-team" target="_blank" rel="noopener">GitHub</a>
     </div>
-
-    <!-- ── CHAT VIEW ── -->
-    <div class="chat-view" id="chatView">
-        <div class="chat-header">
-            <div class="chat-header-left">
-                <div class="chat-header-logo"><span>B</span></div>
-                <h3>B Corp Navigator</h3>
-            </div>
-            <div class="chat-header-right">
-                <span class="user-badge" id="userBadge"></span>
-                <button class="new-chat-btn" onclick="newChat()">+ New Chat</button>
-            </div>
-        </div>
-        <div class="chat-frame-container">
-            <iframe
-                id="difyFrame"
-                src=""
-                allow="microphone"
-                loading="lazy"
-            ></iframe>
-        </div>
-        <div class="chat-footer">
-            <div class="chat-footer-left">
-                Based on B Lab Standards V2.2 (Feb 2026) · <a href="https://mmind.ai" target="_blank">MMIND.ai</a>
-            </div>
-            <div class="chat-footer-right">
-                <a href="https://github.com/hartmut-ux/ai-bcorp-team" target="_blank">GitHub</a>
-                <a href="https://github.com/hartmut-ux/ai-bcorp-team-en" target="_blank">EN Repo</a>
-            </div>
-        </div>
+  </div>
+  <div class="hero">
+    <span class="eyebrow">B Lab Standards V2</span>
+    <h1>Über 1'200 Seiten Standards. Eine Frage: Was gilt für uns?</h1>
+    <p class="lead">Zehn Claude Skills führen durch die B Corp Zertifizierung, von der Eignungsprüfung bis zum Impact Report. Dazu ein FAQ-Agent, der die Standards durchsuchbar macht. Offen, kostenlos, ohne Anmeldung.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#chat">Standards durchsuchen</a>
+      <a class="btn btn-ghost" href="#skills">Die zehn Skills</a>
     </div>
+    <div class="tags">
+      <span class="tag">Foundation Requirements</span>
+      <span class="tag">7 Impact Topics</span>
+      <span class="tag">Year 0 · 3 · 5</span>
+      <span class="tag">Tailoring nach Grösse und Sektor</span>
+      <span class="tag">Schweizer Sprachmodell Apertus</span>
+    </div>
+  </div>
+</header>
 
-    <script>
-        // ══ CONFIGURATION ══
-        // Replace this URL with your Dify chatbot embed URL
-        const DIFY_CHAT_URL = 'https://dify.huebner.io/chatbot/QExMsxb1mzs2bbLO';
+<section id="chat">
+  <h2>FAQ-Agent zu den B Lab Standards</h2>
+  <p class="sub">Frag nach einer Requirement-ID, nach einer Frist oder nach dem, was für deine Unternehmensgrösse gilt. Der Agent antwortet auf Basis des hinterlegten Standardtexts und nennt die Fundstelle.</p>
+  <div class="chat-shell">
+    <div class="chat-bar">
+      <div><strong>B Lab Standards</strong> <span>· Apertus über Dify, Serverstandort Frankfurt am Main</span></div>
+      <button onclick="newChat()">Neues Gespräch</button>
+    </div>
+    <iframe id="difyFrame" title="B Corp Navigator FAQ-Agent"></iframe>
+  </div>
+</section>
 
-        // Optional: Beehiiv publication ID for newsletter integration
-        // Leave empty to just store emails locally
-        const BEEHIIV_PUBLICATION_ID = '';
+<div class="band">
+  <div class="band-inner two">
+    <div>
+      <h3>Was ein Claude Skill ist</h3>
+      <p>Ein Ordner mit einer Anleitung in Klartext und optional Referenzdateien. Claude lädt zuerst nur Name und Beschreibung. Passt die Frage dazu, wird die Anleitung geladen. Referenzdateien erst dann, wenn sie gebraucht werden. Kein Programmcode, kein Fine-Tuning, keine eigene Infrastruktur.</p>
+      <p style="margin-top:.8rem">Der praktische Effekt: Fachwissen lässt sich weitergeben wie ein Dokument. Wer es ändern will, bearbeitet eine Textdatei.</p>
+    </div>
+    <div>
+      <h3>Warum Apertus im FAQ-Agenten</h3>
+      <p><a href="https://www.apertus-ai.org/" target="_blank" rel="noopener" style="color:var(--orchid)">Apertus</a> ist ein offenes Sprachmodell von EPFL, ETH Zürich und CSCS. Trainingsdaten, Code, Gewichte und Alignment-Verfahren sind offengelegt. Das Modell läuft self-hosted über Dify auf einem Server in Frankfurt am Main.</p>
+      <p style="margin-top:.8rem">Für Mandate mit vertraulichen Unternehmensdaten ist das ein Argument, das sich belegen lässt, statt eines Versprechens.</p>
+    </div>
+  </div>
+</div>
 
-        // ══ ACCESS HANDLER ══
-        function handleAccess() {
-            const name = document.getElementById('nameInput').value.trim();
-            const email = document.getElementById('emailInput').value.trim();
-            const errorMsg = document.getElementById('errorMsg');
+<section id="skills">
+  <h2>Die zehn Skills</h2>
+  <p class="sub">Der Certification Navigator steuert, die sieben Impact-Topic-Skills arbeiten fachlich zu, zwei Querschnittsskills berichten und überwachen. Jeder Skill lässt sich einzeln herunterladen und in Claude installieren.</p>
+  <div class="grid" id="skillGrid"></div>
+</section>
 
-            // Validate email
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                errorMsg.style.display = 'block';
-                errorMsg.textContent = 'Please enter a valid email address.';
-                return;
-            }
+<div class="band" id="install">
+  <div class="band-inner">
+    <h2>Installation in drei Schritten</h2>
+    <p class="sub">Die ZIP-Dateien enthalten die SKILL.md im Wurzelverzeichnis, genau so erwartet Claude sie.</p>
+    <div class="two">
+      <div>
+        <h3>Claude Web oder Desktop</h3>
+        <ol class="steps">
+          <li>Einstellungen → Capabilities → «Code execution and file creation» aktivieren</li>
+          <li>Customize → Skills → «Create skill» → «Upload a skill»</li>
+          <li>ZIP-Datei hochladen, zum Beispiel <code>certification-navigator.zip</code></li>
+        </ol>
+      </div>
+      <div>
+        <h3>Claude Code</h3>
+        <p>Repository klonen und die Skill-Ordner ins Skill-Verzeichnis kopieren:</p>
+        <p style="margin-top:.7rem"><code>git clone https://github.com/hartmut-ux/ai-bcorp-team.git</code></p>
+        <p style="margin-top:.4rem"><code>cp -r ai-bcorp-team/skills/* ~/.claude/skills/</code></p>
+        <p style="margin-top:.8rem">Danach meldet sich der passende Skill von selbst, sobald eine einschlägige Frage kommt.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
-            if (!name) {
-                errorMsg.style.display = 'block';
-                errorMsg.textContent = 'Please enter your name.';
-                return;
-            }
+<footer>
+  <div class="foot-inner">
+    <div>
+      <div style="color:#fff;font-weight:600;margin-bottom:.4rem">B Corp Navigator</div>
+      <div>Open Source unter MIT · <a href="https://github.com/hartmut-ux/ai-bcorp-team" target="_blank" rel="noopener">GitHub</a></div>
+      <div>Entwickelt von <a href="https://mmind.ai" target="_blank" rel="noopener">MMIND.ai</a>, Schaan</div>
+    </div>
+    <div class="disclaimer">
+      Arbeitsinstrument, keine Zertifizierung und keine Rechtsberatung. Verbindlich ist allein die Prüfung durch B Lab. Die Antworten des FAQ-Agenten stützen sich auf die hinterlegte Fassung der B Lab Standards; massgeblich bleibt das Originaldokument von B Lab.
+    </div>
+  </div>
+</footer>
 
-            errorMsg.style.display = 'none';
+<script>
+const DIFY_CHAT_URL = 'https://dify.huebner.io/chatbot/QExMsxb1mzs2bbLO';
 
-            // Store access data
-            const accessData = {
-                name: name,
-                email: email,
-                timestamp: new Date().toISOString(),
-                source: 'bcorp-navigator-landing'
-            };
+const SKILLS = [
+  ['01','certification-navigator','Certification Navigator','Eignungsprüfung, Legal Requirement, Risikoprofil und die Roadmap über Year 0, 3 und 5.','FR1–FR3'],
+  ['02','governance-purpose-architect','Governance &amp; Purpose Architect','Unternehmenszweck verankern, Stakeholder-Governance und Beschwerdeverfahren aufbauen.','PSG1–PSG6'],
+  ['03','fair-work-analyst','Fair Work Analyst','Living Wage prüfen, Arbeitsverträge bewerten, Arbeitsplatzkultur messen.','FW1–FW4'],
+  ['04','jedi-strategist','JEDI Strategist','Diversity-Daten erheben, Equity Audit durchführen, Massnahmen ableiten.','JEDI1–JEDI2'],
+  ['05','human-rights-due-diligence','Human Rights Due Diligence','Salient Issues identifizieren, Lieferkette prüfen, Wiedergutmachung steuern.','HR1–HR4'],
+  ['06','climate-action-planner','Climate Action Planner','Scope 1, 2 und 3 bilanzieren, Science-Based Targets setzen, Transition Plan schreiben.','CA1–CA3'],
+  ['07','environmental-stewardship-manager','Environmental Stewardship Manager','Kreislaufwirtschaft, Wasser, Abfall, Biodiversität und Lieferantenstandards.','ESC1–ESC5'],
+  ['08','public-affairs-collective-action','Public Affairs &amp; Collective Action','Lobbying-Policy, Steuertransparenz, Anti-Korruption, kollektives Engagement.','GACA1–GACA3'],
+  ['09','impact-reporter','Impact Reporter','Impact Report erstellen, B Impact Assessment befüllen, auf GRI und ESRS mappen.','PSG6 + Querschnitt'],
+  ['10','compliance-monitor','Compliance Monitor','Gap-Analyse, Fristen, Risk Heatmap, Vorbereitung der Verifizierung.','alle Requirements']
+];
 
-            // Log to console (you can send this to your backend/webhook)
-            console.log('New B Corp Navigator access:', accessData);
+document.getElementById('skillGrid').innerHTML = SKILLS.map(function(s){
+  return '<div class="card">'
+    + '<div class="num">' + s[0] + '</div>'
+    + '<h3>' + s[2] + '</h3>'
+    + '<p>' + s[3] + '</p>'
+    + '<span class="req">' + s[4] + '</span><br>'
+    + '<a href="dist/' + s[1] + '.zip" download>ZIP herunterladen ↓</a>'
+    + '</div>';
+}).join('');
 
-            // Optional: Send to n8n webhook for Beehiiv integration
-            sendToWebhook(accessData);
+document.getElementById('difyFrame').src = DIFY_CHAT_URL;
 
-            // Show chat
-            showChat(name, email);
-        }
-
-        function showChat(name, email) {
-            document.getElementById('gateView').classList.add('hidden');
-            document.getElementById('chatView').classList.add('active');
-            document.getElementById('userBadge').textContent = name;
-            document.getElementById('difyFrame').src = DIFY_CHAT_URL;
-        }
-
-        function newChat() {
-            const frame = document.getElementById('difyFrame');
-            frame.src = '';
-            setTimeout(() => { frame.src = DIFY_CHAT_URL; }, 100);
-        }
-
-        // ══ WEBHOOK INTEGRATION ══
-        // Connect this to your n8n webhook to store emails / add to Beehiiv
-        function sendToWebhook(data) {
-            // Uncomment and replace with your n8n webhook URL:
-            // fetch('https://n8n.huebner.io/webhook/bcorp-navigator-signup', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify(data)
-            // }).catch(err => console.log('Webhook not configured yet'));
-        }
-
-        // Allow Enter key to submit
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !document.getElementById('gateView').classList.contains('hidden')) {
-                handleAccess();
-            }
-        });
-    </script>
+function newChat(){
+  const f = document.getElementById('difyFrame');
+  f.src = 'about:blank';
+  setTimeout(function(){ f.src = DIFY_CHAT_URL; }, 60);
+}
+</script>
 </body>
 </html>
